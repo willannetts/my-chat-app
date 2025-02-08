@@ -10,7 +10,6 @@ const ChatInterface = () => {
     
     if (!inputMessage.trim()) return;
 
-    // Add user message to chat
     const newMessage = {
       content: inputMessage,
       sender: 'user',
@@ -20,8 +19,6 @@ const ChatInterface = () => {
     setMessages([...messages, newMessage]);
     setInputMessage('');
 
-    // Here you would typically make an API call to ChatGPT
-    // For now, we'll just simulate a response
     const botResponse = {
       content: 'This is a simulated response.',
       sender: 'assistant',
@@ -35,28 +32,60 @@ const ChatInterface = () => {
 
   return (
     <div className="chat-container">
-      <div className="chat-history">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`message ${message.sender === 'user' ? 'user-message' : 'assistant-message'}`}
-          >
-            {message.content}
-          </div>
-        ))}
+      <div className="sidebar">
+        <button className="new-chat">+ New chat</button>
+        <div className="history-list">
+          {/* Chat history items would go here */}
+        </div>
       </div>
-      <form onSubmit={handleSubmit} className="input-form">
-        <input
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          placeholder="Type your message..."
-          className="message-input"
-        />
-        <button type="submit" className="send-button">
-          Send
-        </button>
-      </form>
+      <div className="main-content">
+        <div className="chat-history">
+          {messages.length === 0 ? (
+            <div className="empty-state">
+              <h1>ChatGPT Clone</h1>
+              <div className="examples">
+                <div className="example-group">
+                  <h3>Examples</h3>
+                  <button>"Explain quantum computing in simple terms"</button>
+                  <button>"Got any creative ideas for a 10 year old's birthday?"</button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            messages.map((message, index) => (
+              <div key={index} className={`message-wrapper ${message.sender}`}>
+                <div className="message-content">
+                  <div className="avatar">
+                    {message.sender === 'user' ? '👤' : '🤖'}
+                  </div>
+                  <div className="message-text">
+                    {message.content}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        <div className="input-container">
+          <form onSubmit={handleSubmit} className="input-form">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              placeholder="Send a message..."
+              className="message-input"
+            />
+            <button type="submit" className="send-button" disabled={!inputMessage.trim()}>
+              <svg stroke="currentColor" fill="none" viewBox="0 0 24 24" strokeWidth={2}>
+                <path d="M6 12L3 3l18 9-18 9 3-9z" />
+              </svg>
+            </button>
+          </form>
+          <div className="input-footer">
+            Free Research Preview. ChatGPT may produce inaccurate information.
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
