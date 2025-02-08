@@ -157,18 +157,25 @@
   cursor: not-allowed;
 }
 
-.input-footer {
-  text-align: center;
-  color: #6e6e80;
-  font-size: 12px;
-  padding-top: 12px;
-  max-width: 768px;
-  margin: 0 auto;
-}
-
 /* Ensure the app takes full height */
 html, body, #root, .App {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.loading-dots {
+  color: #666;
+}
+
+.loading-dots:after {
+  content: '.';
+  animation: dots 1.5s steps(5, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60% { content: '...'; }
+  80%, 100% { content: ''; }
 } 
